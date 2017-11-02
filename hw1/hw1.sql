@@ -38,19 +38,39 @@ AS
 -- Question 2i
 CREATE VIEW q2i(namefirst, namelast, playerid, yearid)
 AS
-  SELECT 1, 1, 1, 1 -- replace this line
+  SELECT namefirst, namelast, playerid, yearid
+  from master
+  natural join halloffame
+  where halloffame.inducted = 'Y'
+  order by yearid desc
 ;
 
 -- Question 2ii
 CREATE VIEW q2ii(namefirst, namelast, playerid, schoolid, yearid)
 AS
-  SELECT 1, 1, 1, 1, 1 -- replace this line
+  SELECT M.namefirst, M.namelast,distinct M.playerid, S.schoolid, H.yearid
+  from master as M
+  join halloffame as H
+       on M.playerid = H.playerid
+  join collegeplaying as C
+       on C.playerid = M.playerid
+  join schools as S
+       on S.schoolid = C.schoolid
+  where H.inducted = 'Y'
+       and S.schoolstate = 'CA'
+  order by H.yearid desc, S.schoolid, M.playerid
 ;
 
 -- Question 2iii
 CREATE VIEW q2iii(playerid, namefirst, namelast, schoolid)
 AS
-  SELECT 1, 1, 1, 1 -- replace this line
+    select distinct playerid, namefirst, namelast, schoolid
+    from master
+    join halloffame
+    on master.playerid = halloffame.playerid
+    left join collegeplaying
+    on collegeplaying.playerid = master.playerid
+    where halloffame.inducted = 'Y'
 ;
 
 -- Question 3i
