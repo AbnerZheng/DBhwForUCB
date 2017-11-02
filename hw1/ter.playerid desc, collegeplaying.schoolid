@@ -1,0 +1,390 @@
+ playerid  |  namefirst   |   namelast   |  schoolid  
+-----------+--------------+--------------+------------
+ cobbty01  | Ty           | Cobb         | 
+ ruthba01  | Babe         | Ruth         | 
+ wagneho01 | Honus        | Wagner       | 
+ mathech01 | Christy      | Mathewson    | bucknell
+ johnswa01 | Walter       | Johnson      | 
+ lajoina01 | Nap          | Lajoie       | 
+ speaktr01 | Tris         | Speaker      | txwesleyan
+ youngcy01 | Cy           | Young        | 
+ bulkemo99 | Morgan       | Bulkeley     | 
+ johnsba99 | Ban          | Johnson      | 
+ mackco01  | Connie       | Mack         | 
+ mcgrajo01 | John         | McGraw       | stbonny
+ mcgrajo01 | John         | McGraw       | stbonny
+ mcgrajo01 | John         | McGraw       | stbonny
+ mcgrajo01 | John         | McGraw       | stbonny
+ wrighge01 | George       | Wright       | 
+ alexape01 | Pete         | Alexander    | 
+ cartwal99 | Alexander    | Cartwright   | 
+ chadwhe99 | Henry        | Chadwick     | 
+ sislege01 | George       | Sisler       | michigan
+ sislege01 | George       | Sisler       | michigan
+ sislege01 | George       | Sisler       | michigan
+ collied01 | Eddie        | Collins      | columbia
+ collied01 | Eddie        | Collins      | columbia
+ collied01 | Eddie        | Collins      | columbia
+ keelewi01 | Willie       | Keeler       | 
+ ansonca01 | Cap          | Anson        | 
+ comisch01 | Charlie      | Comiskey     | 
+ cummica01 | Candy        | Cummings     | 
+ ewingbu01 | Buck         | Ewing        | 
+ gehrilo01 | Lou          | Gehrig       | columbia
+ radboch01 | Old Hoss     | Radbourn     | 
+ spaldal01 | Al           | Spalding     | 
+ hornsro01 | Rogers       | Hornsby      | 
+ landike99 | Kenesaw      | Landis       | 
+ bresnro01 | Roger        | Bresnahan    | 
+ broutda01 | Dan          | Brouthers    | 
+ clarkfr01 | Fred         | Clarke       | 
+ colliji01 | Jimmy        | Collins      | 
+ delahed01 | Ed           | Delahanty    | 
+ duffyhu01 | Hugh         | Duffy        | 
+ jennihu01 | Hughie       | Jennings     | mansfield
+ jennihu01 | Hughie       | Jennings     | stbonny
+ jennihu01 | Hughie       | Jennings     | stbonny
+ jennihu01 | Hughie       | Jennings     | stbonny
+ kellyki01 | King         | Kelly        | 
+ orourji01 | Jim          | O'Rourke     | 
+ robinwi01 | Wilbert      | Robinson     | 
+ burkeje01 | Jesse        | Burkett      | 
+ chancfr01 | Frank        | Chance       | 
+ chesbja01 | Jack         | Chesbro      | 
+ eversjo01 | Johnny       | Evers        | 
+ griffcl01 | Clark        | Griffith     | illinoisst
+ mccarto01 | Tommy        | McCarthy     | 
+ mcginjo01 | Joe          | McGinnity    | 
+ planked01 | Eddie        | Plank        | gettysburg
+ planked01 | Eddie        | Plank        | gettysburg
+ tinkejo01 | Joe          | Tinker       | 
+ wadderu01 | Rube         | Waddell      | pavolan
+ walshed01 | Ed           | Walsh        | 
+ hubbeca01 | Carl         | Hubbell      | 
+ friscfr01 | Frankie      | Frisch       | fordham
+ cochrmi01 | Mickey       | Cochrane     | bostonuniv
+ cochrmi01 | Mickey       | Cochrane     | bostonuniv
+ grovele01 | Lefty        | Grove        | 
+ pennohe01 | Herb         | Pennock      | 
+ traynpi01 | Pie          | Traynor      | 
+ gehrich01 | Charlie      | Gehringer    | 
+ brownmo01 | Mordecai     | Brown        | 
+ nichoki01 | Kid          | Nichols      | 
+ ottme01   | Mel          | Ott          | 
+ foxxji01  | Jimmie       | Foxx         | 
+ heilmha01 | Harry        | Heilmann     | 
+ wanerpa01 | Paul         | Waner        | ecentralok
+ deandi01  | Dizzy        | Dean         | 
+ simmoal01 | Al           | Simmons      | 
+ barroed99 | Ed           | Barrow       | 
+ bendech01 | Chief        | Bender       | dickinson
+ bendech01 | Chief        | Bender       | pacarli
+ bendech01 | Chief        | Bender       | pacarli
+ connoto99 | Tommy        | Connolly     | 
+ klembi99  | Bill         | Klem         | 
+ wallabo01 | Bobby        | Wallace      | 
+ wrighha01 | Harry        | Wright       | 
+ maranra01 | Rabbit       | Maranville   | 
+ dickebi01 | Bill         | Dickey       | 
+ terrybi01 | Bill         | Terry        | 
+ dimagjo01 | Joe          | DiMaggio     | 
+ lyonste01 | Ted          | Lyons        | baylor
+ lyonste01 | Ted          | Lyons        | baylor
+ lyonste01 | Ted          | Lyons        | baylor
+ lyonste01 | Ted          | Lyons        | baylor
+ vanceda01 | Dazzy        | Vance        | 
+ hartnga01 | Gabby        | Hartnett     | madeajc
+ hartnga01 | Gabby        | Hartnett     | madeajc
+ bakerfr01 | Home Run     | Baker        | 
+ schalra01 | Ray          | Schalk       | 
+ greenha01 | Hank         | Greenberg    | 
+ cronijo01 | Joe          | Cronin       | 
+ crawfsa01 | Sam          | Crawford     | 
+ mccarjo99 | Joe          | McCarthy     | niagara
+ mccarjo99 | Joe          | McCarthy     | niagara
+ mccarjo99 | Joe          | McCarthy     | niagara
+ wheatza01 | Zack         | Wheat        | 
+ careyma01 | Max          | Carey        | inconco
+ careyma01 | Max          | Carey        | inconco
+ careyma01 | Max          | Carey        | inconco
+ hamilbi01 | Billy        | Hamilton     | 
+ fellebo01 | Bob          | Feller       | 
+ robinja02 | Jackie       | Robinson     | ucla
+ mckecbi01 | Bill         | McKechnie    | 
+ roushed01 | Edd          | Roush        | 
+ clarkjo01 | John         | Clarkson     | 
+ flickel01 | Elmer        | Flick        | 
+ ricesa01  | Sam          | Rice         | 
+ rixeyep01 | Eppa         | Rixey        | virginia
+ rixeyep01 | Eppa         | Rixey        | virginia
+ applilu01 | Luke         | Appling      | 
+ faberre01 | Red          | Faber        | lorasia
+ grimebu01 | Burleigh     | Grimes       | 
+ huggimi01 | Miller       | Huggins      | cincy
+ keefeti01 | Tim          | Keefe        | 
+ manushe01 | Heinie       | Manush       | 
+ wardjo01  | John         | Ward         | pennst
+ galvipu01 | Pud          | Galvin       | 
+ willite01 | Ted          | Williams     | 
+ stengca01 | Casey        | Stengel      | 
+ ruffire01 | Red          | Ruffing      | 
+ rickebr01 | Branch       | Rickey       | ohwesleyan
+ wanerll01 | Lloyd        | Waner        | 
+ medwijo01 | Joe          | Medwick      | 
+ cuyleki01 | Kiki         | Cuyler       | 
+ gosligo01 | Goose        | Goslin       | 
+ musiast01 | Stan         | Musial       | 
+ camparo01 | Roy          | Campanella   | 
+ covelst01 | Stan         | Coveleski    | 
+ hoytwa01  | Waite        | Hoyt         | 
+ boudrlo01 | Lou          | Boudreau     | illinois
+ combsea01 | Earle        | Combs        | ekentucky
+ combsea01 | Earle        | Combs        | ekentucky
+ combsea01 | Earle        | Combs        | ekentucky
+ combsea01 | Earle        | Combs        | ekentucky
+ frickfo99 | Ford         | Frick        | 
+ haineje01 | Jesse        | Haines       | 
+ bancrda01 | Dave         | Bancroft     | 
+ becklja01 | Jake         | Beckley      | 
+ hafeych01 | Chick        | Hafey        | 
+ hoopeha01 | Harry        | Hooper       | stmarysca
+ kellejo01 | Joe          | Kelley       | 
+ marquru01 | Rube         | Marquard     | 
+ paigesa01 | Satchel      | Paige        | 
+ weissge99 | George       | Weiss        | 
+ koufasa01 | Sandy        | Koufax       | cincy
+ berrayo01 | Yogi         | Berra        | 
+ wynnea01  | Early        | Wynn         | 
+ gibsojo99 | Josh         | Gibson       | 
+ gomezle01 | Lefty        | Gomez        | 
+ harriwi99 | Will         | Harridge     | 
+ leonabu99 | Buck         | Leonard      | 
+ youngro01 | Ross         | Youngs       | 
+ spahnwa01 | Warren       | Spahn        | 
+ clemero01 | Roberto      | Clemente     | 
+ evansbi99 | Billy        | Evans        | 
+ irvinmo01 | Monte        | Irvin        | 
+ kellyge01 | High Pockets | Kelly        | 
+ welchmi01 | Mickey       | Welch        | 
+ mantlmi01 | Mickey       | Mantle       | 
+ fordwh01  | Whitey       | Ford         | 
+ bellco99  | Cool Papa    | Bell         | 
+ bottoji01 | Jim          | Bottomley    | 
+ conlajo01 | Jocko        | Conlan       | 
+ thompsa01 | Sam          | Thompson     | 
+ kinerra01 | Ralph        | Kiner        | 
+ averiea01 | Earl         | Averill      | 
+ harribu01 | Bucky        | Harris       | 
+ hermabi01 | Billy        | Herman       | 
+ johnsju99 | Judy         | Johnson      | 
+ roberro01 | Robin        | Roberts      | michiganst
+ roberro01 | Robin        | Roberts      | michiganst
+ lemonbo01 | Bob          | Lemon        | 
+ charlos99 | Oscar        | Charleston   | 
+ connoro01 | Roger        | Connor       | 
+ hubbaca99 | Cal          | Hubbard      | 
+ lindsfr01 | Freddie      | Lindstrom    | 
+ bankser01 | Ernie        | Banks        | 
+ dihigma99 | Martin       | Dihigo       | 
+ lloydpo99 | Pop          | Lloyd        | 
+ lopezal01 | Al           | Lopez        | 
+ rusieam01 | Amos         | Rusie        | 
+ seweljo01 | Joe          | Sewell       | alabama
+ seweljo01 | Joe          | Sewell       | alabama
+ seweljo01 | Joe          | Sewell       | alabama
+ seweljo01 | Joe          | Sewell       | alabama
+ matheed01 | Eddie        | Mathews      | 
+ jossad01  | Addie        | Joss         | wisacre
+ macphla99 | Larry        | MacPhail     | 
+ mayswi01  | Willie       | Mays         | 
+ gileswa99 | Warren       | Giles        | 
+ wilsoha01 | Hack         | Wilson       | 
+ kalinal01 | Al           | Kaline       | 
+ snidedu01 | Duke         | Snider       | 
+ kleinch01 | Chuck        | Klein        | 
+ yawketo99 | Tom          | Yawkey       | 
+ gibsobo01 | Bob          | Gibson       | creighton
+ gibsobo01 | Bob          | Gibson       | creighton
+ gibsobo01 | Bob          | Gibson       | creighton
+ gibsobo01 | Bob          | Gibson       | creighton
+ fosteru99 | Rube         | Foster       | 
+ mizejo01  | Johnny       | Mize         | 
+ aaronha01 | Hank         | Aaron        | 
+ robinfr02 | Frank        | Robinson     | 
+ chandha99 | Happy        | Chandler     | trnsylvnia
+ jackstr01 | Travis       | Jackson      | 
+ robinbr01 | Brooks       | Robinson     | 
+ maricju01 | Juan         | Marichal     | 
+ alstowa01 | Walter       | Alston       | miamioh
+ alstowa01 | Walter       | Alston       | miamioh
+ alstowa01 | Walter       | Alston       | miamioh
+ kellge01  | George       | Kell         | 
+ aparilu01 | Luis         | Aparicio     | 
+ killeha01 | Harmon       | Killebrew    | 
+ drysddo01 | Don          | Drysdale     | 
+ ferreri01 | Rick         | Ferrell      | guilfordnc
+ ferreri01 | Rick         | Ferrell      | guilfordnc
+ ferreri01 | Rick         | Ferrell      | guilfordnc
+ reesepe01 | Pee Wee      | Reese        | 
+ wilheho01 | Hoyt         | Wilhelm      | 
+ brocklo01 | Lou          | Brock        | southernu
+ brocklo01 | Lou          | Brock        | southernu
+ brocklo01 | Lou          | Brock        | southernu
+ slaugen01 | Enos         | Slaughter    | 
+ vaughar01 | Arky         | Vaughan      | 
+ mccovwi01 | Willie       | McCovey      | 
+ doerrbo01 | Bobby        | Doerr        | 
+ lombaer01 | Ernie        | Lombardi     | 
+ willibi01 | Billy        | Williams     | 
+ hunteca01 | Catfish      | Hunter       | 
+ dandrra99 | Ray          | Dandridge    | 
+ stargwi01 | Willie       | Stargell     | 
+ benchjo01 | Johnny       | Bench        | 
+ yastrca01 | Carl         | Yastrzemski  | 
+ barlial99 | Al           | Barlick      | 
+ schoere01 | Red          | Schoendienst | 
+ palmeji01 | Jim          | Palmer       | 
+ morgajo02 | Joe          | Morgan       | camerri
+ carewro01 | Rod          | Carew        | 
+ perryga01 | Gaylord      | Perry        | 
+ jenkife01 | Fergie       | Jenkins      | 
+ lazzeto01 | Tony         | Lazzeri      | 
+ veeckbi99 | Bill         | Veeck        | 
+ seaveto01 | Tom          | Seaver       | cafrecc
+ seaveto01 | Tom          | Seaver       | usc
+ fingero01 | Rollie       | Fingers      | 
+ mcgowbi99 | Bill         | McGowan      | 
+ newhoha01 | Hal          | Newhouser    | 
+ jacksre01 | Reggie       | Jackson      | arizonast
+ carltst01 | Steve        | Carlton      | flmdnjc
+ durocle01 | Leo          | Durocher     | 
+ rizzuph01 | Phil         | Rizzuto      | 
+ schmimi01 | Mike         | Schmidt      | ohio
+ schmimi01 | Mike         | Schmidt      | ohio
+ schmimi01 | Mike         | Schmidt      | ohio
+ ashburi01 | Richie       | Ashburn      | 
+ dayle99   | Leon         | Day          | 
+ hulbewi99 | William      | Hulbert      | 
+ willivi01 | Vic          | Willis       | delaware
+ bunniji01 | Jim          | Bunning      | 
+ fostebi99 | Bill         | Foster       | 
+ hanlone01 | Ned          | Hanlon       | 
+ weaveea99 | Earl         | Weaver       | 
+ niekrph01 | Phil         | Niekro       | 
+ foxne01   | Nellie       | Fox          | 
+ lasorto01 | Tom          | Lasorda      | 
+ wellswi99 | Willie       | Wells        | 
+ suttodo01 | Don          | Sutton       | flgccco
+ davisge01 | George       | Davis        | 
+ dobyla01  | Larry        | Doby         | 
+ macphle99 | Lee          | MacPhail     | 
+ roganbu99 | Bullet       | Rogan        | 
+ ryanno01  | Nolan        | Ryan         | 
+ brettge01 | George       | Brett        | 
+ yountro01 | Robin        | Yount        | 
+ cepedor01 | Orlando      | Cepeda       | 
+ chylane99 | Nestor       | Chylak       | 
+ seleefr99 | Frank        | Selee        | 
+ willijo99 | Smokey Joe   | Williams     | 
+ fiskca01  | Carlton      | Fisk         | newhamp
+ perezto01 | Tony         | Perez        | 
+ andersp01 | Sparky       | Anderson     | 
+ mcphebi01 | Bid          | McPhee       | 
+ steartu99 | Turkey       | Stearnes     | 
+ winfida01 | Dave         | Winfield     | minnesota
+ winfida01 | Dave         | Winfield     | minnesota
+ winfida01 | Dave         | Winfield     | minnesota
+ puckeki01 | Kirby        | Puckett      | bradley
+ puckeki01 | Kirby        | Puckett      | iltrito
+ mazerbi01 | Bill         | Mazeroski    | 
+ smithhi99 | Hilton       | Smith        | 
+ smithoz01 | Ozzie        | Smith        | calpoly
+ smithoz01 | Ozzie        | Smith        | calpoly
+ smithoz01 | Ozzie        | Smith        | calpoly
+ smithoz01 | Ozzie        | Smith        | calpoly
+ murraed02 | Eddie        | Murray       | 
+ cartega01 | Gary         | Carter       | 
+ molitpa01 | Paul         | Molitor      | minnesota
+ molitpa01 | Paul         | Molitor      | minnesota
+ molitpa01 | Paul         | Molitor      | minnesota
+ eckerde01 | Dennis       | Eckersley    | 
+ boggswa01 | Wade         | Boggs        | 
+ sandbry01 | Ryne         | Sandberg     | 
+ suttebr01 | Bruce        | Sutter       | 
+ brownra99 | Ray          | Brown        | 
+ brownwi02 | Willard      | Brown        | 
+ coopean99 | Andy         | Cooper       | 
+ grantfr99 | Frank        | Grant        | 
+ hillpe99  | Pete         | Hill         | 
+ mackebi99 | Biz          | Mackey       | 
+ manleef99 | Effa         | Manley       | 
+ mendejo99 | Jose         | Mendez       | 
+ pompeal99 | Alex         | Pompez       | 
+ poseycu99 | Cum          | Posey        | duquesne
+ santolo99 | Louis        | Santop       | 
+ suttlmu99 | Mule         | Suttles      | 
+ taylobe99 | Ben          | Taylor       | 
+ torricr99 | Cristobal    | Torriente    | 
+ whiteso99 | Sol          | White        | 
+ wilkijl99 | J. L.        | Wilkinson    | 
+ wilsoju99 | Jud          | Wilson       | 
+ ripkeca01 | Cal          | Ripken       | 
+ gwynnto01 | Tony         | Gwynn        | sandiegost
+ gwynnto01 | Tony         | Gwynn        | sandiegost
+ gwynnto01 | Tony         | Gwynn        | sandiegost
+ gossari01 | Rich         | Gossage      | 
+ dreyfba99 | Barney       | Dreyfuss     | 
+ kuhnbo99  | Bowie        | Kuhn         | 
+ omallwa99 | Walter       | O'Malley     | 
+ southbi01 | Billy        | Southworth   | 
+ willidi02 | Dick         | Williams     | capasad
+ henderi01 | Rickey       | Henderson    | 
+ riceji01  | Jim          | Rice         | 
+ gordojo01 | Joe          | Gordon       | oregon
+ gordojo01 | Joe          | Gordon       | oregon
+ dawsoan01 | Andre        | Dawson       | floridaam
+ dawsoan01 | Andre        | Dawson       | floridaam
+ dawsoan01 | Andre        | Dawson       | floridaam
+ herzowh01 | Whitey       | Herzog       | 
+ harvedo99 | Doug         | Harvey       | sandiegost
+ harvedo99 | Doug         | Harvey       | sandiegost
+ alomaro01 | Roberto      | Alomar       | 
+ blylebe01 | Bert         | Blyleven     | 
+ gillipa99 | Pat          | Gillick      | calavco
+ gillipa99 | Pat          | Gillick      | usc
+ gillipa99 | Pat          | Gillick      | usc
+ larkiba01 | Barry        | Larkin       | michigan
+ larkiba01 | Barry        | Larkin       | michigan
+ larkiba01 | Barry        | Larkin       | michigan
+ santoro01 | Ron          | Santo        | 
+ ruperja99 | Jacob        | Ruppert      | 
+ odayha01  | Hank         | O'Day        | 
+ whitede01 | Deacon       | White        | 
+ coxbo01   | Bobby        | Cox          | 
+ larusto01 | Tony         | LaRussa      | 
+ torrejo01 | Joe          | Torre        | 
+ maddugr01 | Greg         | Maddux       | 
+ glavito02 | Tom          | Glavine      | 
+ thomafr04 | Frank        | Thomas       | auburn
+ thomafr04 | Frank        | Thomas       | auburn
+ thomafr04 | Frank        | Thomas       | auburn
+ johnsra05 | Randy        | Johnson      | usc
+ johnsra05 | Randy        | Johnson      | usc
+ johnsra05 | Randy        | Johnson      | usc
+ martipe02 | Pedro        | Martinez     | 
+ smoltjo01 | John         | Smoltz       | 
+ biggicr01 | Craig        | Biggio       | setonhall
+ biggicr01 | Craig        | Biggio       | setonhall
+ biggicr01 | Craig        | Biggio       | setonhall
+ griffke02 | Ken          | Griffey      | 
+ piazzmi01 | Mike         | Piazza       | flmdnjc
+ piazzmi01 | Mike         | Piazza       | miamifl
+ bagweje01 | Jeff         | Bagwell      | hartford
+ bagweje01 | Jeff         | Bagwell      | hartford
+ bagweje01 | Jeff         | Bagwell      | hartford
+ raineti01 | Tim          | Raines       | 
+ rodriiv01 | Ivan         | Rodriguez    | 
+ seligbu99 | Bud          | Selig        | 
+ schurjo99 | John         | Schuerholz   | 
+(386 rows)
+

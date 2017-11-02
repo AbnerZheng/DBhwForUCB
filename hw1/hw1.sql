@@ -48,7 +48,7 @@ AS
 -- Question 2ii
 CREATE VIEW q2ii(namefirst, namelast, playerid, schoolid, yearid)
 AS
-  SELECT M.namefirst, M.namelast,distinct M.playerid, S.schoolid, H.yearid
+  SELECT M.namefirst, M.namelast,M.playerid, S.schoolid, H.yearid
   from master as M
   join halloffame as H
        on M.playerid = H.playerid
@@ -64,14 +64,17 @@ AS
 -- Question 2iii
 CREATE VIEW q2iii(playerid, namefirst, namelast, schoolid)
 AS
-    select distinct playerid, namefirst, namelast, schoolid
+select master.playerid, master.namefirst, 
+	master.namelast, collegeplaying.schoolid 
     from master
     join halloffame
     on master.playerid = halloffame.playerid
     left join collegeplaying
     on collegeplaying.playerid = master.playerid
     where halloffame.inducted = 'Y'
+    order by master.playerid desc, collegeplaying.schoolid
 ;
+
 
 -- Question 3i
 CREATE VIEW q3i(playerid, namefirst, namelast, yearid, slg)
