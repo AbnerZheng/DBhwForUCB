@@ -10,13 +10,13 @@ AS
 -- Question 1i
 CREATE VIEW q1i(namefirst, namelast, birthyear)
 AS
-    SELECT namefirst,namelast, birthyear from master where weight >= 300
+    SELECT namefirst,namelast, birthyear from master where weight > 300
 ;
 
 -- Question 1ii
 CREATE VIEW q1ii(namefirst, namelast, birthyear)
 AS
-  SELECT namefirst, namelast, birthyear from master where namefirst like "% %"
+  SELECT namefirst, namelast, birthyear from master where namefirst like '% %'
 ;
 
 -- Question 1iii
@@ -30,8 +30,8 @@ CREATE VIEW q1iv(birthyear, avgheight, count)
 AS
   SELECT birthyear, avg(height), count(1)
     from master
-    where height > 70
     group by birthyear
+    having avg(height) > 70
     order by birthyear
 ;
 
