@@ -3,31 +3,36 @@ DROP VIEW IF EXISTS q0, q1i, q1ii, q1iii, q1iv, q2i, q2ii, q2iii, q3i, q3ii, q3i
 -- Question 0
 CREATE VIEW q0(era) 
 AS
-  SELECT 1 -- replace this line
+    SELECT MAX(era)
+    FROM pitching 
 ;
 
 -- Question 1i
 CREATE VIEW q1i(namefirst, namelast, birthyear)
 AS
-  SELECT 1, 1, 1 -- replace this line
+    SELECT namefirst,namelast, birthyear from master where weight >= 300
 ;
 
 -- Question 1ii
 CREATE VIEW q1ii(namefirst, namelast, birthyear)
 AS
-  SELECT 1, 1, 1 -- replace this line
+  SELECT namefirst, namelast, birthyear from master where namefirst like "% %"
 ;
 
 -- Question 1iii
 CREATE VIEW q1iii(birthyear, avgheight, count)
 AS
-  SELECT 1, 1, 1 -- replace this line
+  SELECT birthyear, avg(height), count(1) from master group by birthyear order by birthyear
 ;
 
 -- Question 1iv
 CREATE VIEW q1iv(birthyear, avgheight, count)
 AS
-  SELECT 1, 1, 1 -- replace this line
+  SELECT birthyear, avg(height), count(1)
+    from master
+    where height > 70
+    group by birthyear
+    order by birthyear
 ;
 
 -- Question 2i
