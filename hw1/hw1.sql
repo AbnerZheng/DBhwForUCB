@@ -64,7 +64,7 @@ AS
 -- Question 2iii
 CREATE VIEW q2iii(playerid, namefirst, namelast, schoolid)
 AS
-select master.playerid, master.namefirst, 
+select master.playerid, master.namefirst,
 	master.namelast, collegeplaying.schoolid 
     from master
     join halloffame
@@ -79,13 +79,20 @@ select master.playerid, master.namefirst,
 -- Question 3i
 CREATE VIEW q3i(playerid, namefirst, namelast, yearid, slg)
 AS
-  SELECT 1, 1, 1, 1, 1 -- replace this line
+    select master.playerid, namefirst, namelast, yearid,(B.H + 2*B.2B + 3*B.3B + 4*B.HR)::NUMERIC / B.AB as slg
+    from battingpost B, master
+    where B.AB > 50, master.playerid = B.playerid
+    order by slg desc, yearid, playerid
+    limit 10
 ;
 
 -- Question 3ii
 CREATE VIEW q3ii(playerid, namefirst, namelast, lslg)
 AS
-  SELECT 1, 1, 1, 1 -- replace this line
+    select avg(B.H + 2*B.2B + 3*B.3B + 4 * B.HR)::NUMERIC / B.AB as lslg
+    from battingpost B
+    and B.AB > 50
+    group by B.playerid
 ;
 
 -- Question 3iii
