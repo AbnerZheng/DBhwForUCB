@@ -117,25 +117,35 @@ CREATE VIEW q3iii(namefirst, namelast, lslg)
 
 	-- Question 4i
 CREATE VIEW q4i(yearid, min, max, avg, stddev)
-	AS
-	SELECT 1, 1, 1, 1, 1 -- replace this line
-	;
+    AS
+    select yearid, min(salary), max(salary), avg(salary), stddev(salary) from salaries group by yearid order by yearid
+    ;
 
-	-- Question 4ii
+    -- Question 4ii
 CREATE VIEW q4ii(binid, low, high, count)
-	AS
-	SELECT 1, 1, 1, 1 -- replace this line
-	;
+    AS
+    select bucket, bucket * (sub3.max-sub3.min)/10 + sub3.min, (bucket+1) * (sub3.max-sub3.min)/10 + sub3.min, sub2.cnt
+    from(
+    select
+    case when salary = sub1.max then 9 else floor((salary-sub1.min)/interval) end
+    as bucket, count(1) as cnt
+    from salaries, (
+    select min, max, (max-min)/10 as interval from q4i where yearid=2016
+    )sub1
+    where yearid=2016
+    group by bucket
+    ) sub2, (select * from q4i where yearid=2016) sub3
+    order by bucket
+    ;
 
-	-- Question 4iii
+-- Question 4iii
 CREATE VIEW q4iii(yearid, mindiff, maxdiff, avgdiff)
-	AS
-	SELECT 1, 1, 1, 1 -- replace this line
-	;
+AS
+select t2.yearid, t2.min-t1.min as mindiff,t2.max-t1.max as maxdiff,t2.avg-t1.avg as avgdiff  from q4i t1, q4i t2 where t2.yearid - t1.yearid = 1 order by t2.yearid
+;
 
-	-- Question 4iv
+-- Question 4iv
 CREATE VIEW q4iv(playerid, namefirst, namelast, salary, yearid)
-	AS
-	SELECT 1, 1, 1, 1, 1 -- replace this line
-	;
-
+AS
+select master.playerid, namefirst, namelast, sub1.salary,sub1.yearid from (salaries join (select yearid, max(salary) as salary from salaries where yearid = 2000 or yearid = 2001group by yearid) sub1 on sub1.yearid = salaries.yearid and sub1.salary = salaries.salary) join master on master.playerid = salaries.playerid;
+;
