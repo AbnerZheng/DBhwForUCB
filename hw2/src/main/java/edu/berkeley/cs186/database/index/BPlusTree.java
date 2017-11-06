@@ -120,12 +120,21 @@ public class BPlusTree {
 
       // Initialize the header page.
       writeHeader(headerPage.getByteBuffer());
+
     }
 
     /** Read a B+ tree that was previously serialized to filename. */
     public BPlusTree(String filename) {
       //todo Read a B+ tree that was previously serialized to filename.
-      throw new UnsupportedOperationException("TODO(hw2): implement.");
+      final PageAllocator pageAllocator = new PageAllocator(filename, false);
+      final Page headerPage = pageAllocator.fetchPage(0);
+      final ByteBuffer byteBuffer = headerPage.getByteBuffer();
+      final Type schema = Type.fromBytes(byteBuffer);
+      final int order = byteBuffer.getInt();
+      final int rootPageNum = byteBuffer.getInt();
+      this.headerPage = headerPage;
+      this.metadata = new BPlusTreeMetadata(pageAllocator, schema, order);
+      this.root = BPlusNode.fromBytes(this.metadata, rootPageNum);
     }
 
     // Core API ////////////////////////////////////////////////////////////////
