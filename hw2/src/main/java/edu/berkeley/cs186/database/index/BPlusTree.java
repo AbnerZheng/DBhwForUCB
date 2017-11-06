@@ -276,8 +276,7 @@ public class BPlusTree {
      */
     public void remove(DataBox key) {
       typecheck(key);
-      // todo
-      throw new UnsupportedOperationException("TODO(hw2): implement.");
+      root.remove(key);
     }
 
     // Helpers /////////////////////////////////////////////////////////////////

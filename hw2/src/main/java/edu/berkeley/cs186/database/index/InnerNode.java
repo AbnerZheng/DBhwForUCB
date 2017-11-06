@@ -122,7 +122,9 @@ class InnerNode extends BPlusNode {
   // See BPlusNode.remove.
   @Override
   public void remove(DataBox key) {
-    throw new UnsupportedOperationException("TODO(hw2): implement.");
+    final int i = numLessThanEqual(key, keys);
+    final BPlusNode child = getChild(i);
+    child.remove(key);
   }
 
   // Helpers ///////////////////////////////////////////////////////////////////
