@@ -1,5 +1,9 @@
 package edu.berkeley.cs186.database.index;
 
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -120,6 +124,7 @@ public class BPlusTree {
 
     /** Read a B+ tree that was previously serialized to filename. */
     public BPlusTree(String filename) {
+      //todo Read a B+ tree that was previously serialized to filename.
       throw new UnsupportedOperationException("TODO(hw2): implement.");
     }
 
@@ -139,7 +144,8 @@ public class BPlusTree {
      */
     public Optional<RecordId> get(DataBox key) {
       typecheck(key);
-      throw new UnsupportedOperationException("TODO(hw2): implement.");
+      final LeafNode leafNode = root.get(key);
+      return leafNode.getKey(key);
     }
 
     /**
@@ -233,7 +239,18 @@ public class BPlusTree {
      */
     public void put(DataBox key, RecordId rid) throws BPlusTreeException {
       typecheck(key);
-      throw new UnsupportedOperationException("TODO(hw2): implement.");
+      final Optional<Pair<DataBox, Integer>> put = root.put(key, rid);
+      if(put.isPresent()){
+        // 创建一个新页
+        final Pair<DataBox, Integer> dataBoxIntegerPair = put.get();
+        final List<DataBox> keys = new ArrayList<>();
+        keys.add(dataBoxIntegerPair.getFirst());
+        final List<Integer> children = new ArrayList<>();
+        children.add(root.getPage().getPageNum());
+        children.add(dataBoxIntegerPair.getSecond());
+        this.root = new InnerNode(metadata, keys, children);
+        writeHeader(headerPage.getByteBuffer());
+      }
     }
 
     /**
@@ -250,6 +267,7 @@ public class BPlusTree {
      */
     public void remove(DataBox key) {
       typecheck(key);
+      // todo
       throw new UnsupportedOperationException("TODO(hw2): implement.");
     }
 
@@ -281,6 +299,17 @@ public class BPlusTree {
       strings.add(root.toDot());
       strings.add("}");
       return String.join("\n", strings);
+    }
+
+    public void toDotFile(){
+      final String s = toDot();
+      try {
+        final BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("tree.dot"));
+        bufferedWriter.write(s);
+        bufferedWriter.close();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
     }
 
     /**

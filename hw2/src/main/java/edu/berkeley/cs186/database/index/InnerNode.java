@@ -1,10 +1,7 @@
 package edu.berkeley.cs186.database.index;
 
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 import edu.berkeley.cs186.database.common.Pair;
 import edu.berkeley.cs186.database.databox.DataBox;
@@ -69,7 +66,8 @@ class InnerNode extends BPlusNode {
   // See BPlusNode.get.
   @Override
   public LeafNode get(DataBox key) {
-    throw new UnsupportedOperationException("TODO(hw2): implement.");
+    final BPlusNode bPlusNode = getChild(numLessThanEqual(key, keys));
+    return bPlusNode.get(key);
   }
 
   // See BPlusNode.getLeftmostLeaf.
@@ -82,7 +80,43 @@ class InnerNode extends BPlusNode {
   @Override
   public Optional<Pair<DataBox, Integer>> put(DataBox key, RecordId rid)
       throws BPlusTreeException {
-    throw new UnsupportedOperationException("TODO(hw2): implement.");
+    final int numLessThan = numLessThan(key, keys);
+    final BPlusNode bPlusNode = BPlusNode.fromBytes(metadata, children.get(numLessThan));
+    final Optional<Pair<DataBox, Integer>> put = bPlusNode.put(key, rid);
+    if (put.isPresent()) {
+      final Pair<DataBox, Integer> dataBoxIntegerPair = put.get();
+      keys.add(dataBoxIntegerPair.getFirst());
+      children.add(dataBoxIntegerPair.getSecond());
+      int i = keys.size() - 1;
+      for (; i > 0; i--) {
+        final int compare = keys.get(i).compareTo(keys.get(i - 1));
+        if (compare > 0) {
+          break;
+        } else if (compare == 0) {
+          throw new BPlusTreeException("Don't support duplicate key");
+        }
+        Collections.swap(keys, i, i - 1);
+        Collections.swap(children, i+1, i);
+      }
+      final int order = metadata.getOrder();
+      if (keys.size() > 2 * order) {//split
+        final List<DataBox> leftKeyPart = keys.subList(0, order);
+        final List<DataBox> rightKeyPart= keys.subList(order + 1, keys.size());
+
+        final List<Integer> leftChildPart = children.subList(0, order + 1);
+        final List<Integer> rightChildPart = children.subList(order + 1, children.size());
+        final InnerNode innerNode = new InnerNode(metadata, rightKeyPart, rightChildPart);
+        final DataBox upKey = keys.get(order);
+        this.keys = leftKeyPart;
+        this.children = leftChildPart;
+        this.sync();
+
+        return Optional.of(new Pair<DataBox, Integer>(upKey, innerNode.getPage().getPageNum()));
+      }else {
+        this.sync();
+      }
+    }
+    return Optional.empty();
   }
 
   // See BPlusNode.remove.
@@ -250,7 +284,7 @@ class InnerNode extends BPlusNode {
       int childPageNum = child.getPage().getPageNum();
       lines.add(child.toDot());
       lines.add(String.format("  \"node%d\":f%d -> \"node%d\";",
-                              pageNum, i, childPageNum));
+        pageNum, i, childPageNum));
     }
 
     return String.join("\n", lines);
@@ -331,8 +365,8 @@ class InnerNode extends BPlusNode {
     }
     InnerNode n = (InnerNode) o;
     return page.getPageNum() == n.page.getPageNum() &&
-           keys.equals(n.keys) &&
-           children.equals(n.children);
+      keys.equals(n.keys) &&
+      children.equals(n.children);
   }
 
   @Override
