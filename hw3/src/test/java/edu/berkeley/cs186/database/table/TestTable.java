@@ -278,7 +278,8 @@ public class TestTable {
   private void checkSequentialRecords(int start, int end, int incr, BacktrackingIterator<Record> iter) {
     for (int i = start; i < end; i += incr) {
       assertTrue(iter.hasNext());
-      assertEquals(createRecordWithAllTypes(i), iter.next());
+      final Record next = iter.next();
+      assertEquals(createRecordWithAllTypes(i), next);
     }
   }
 

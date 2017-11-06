@@ -522,8 +522,9 @@ public class Table implements Iterable<Record>, Closeable {
 
     public RIDBlockIterator(BacktrackingIterator<Page> block) {
       this.block = block;
-      throw new UnsupportedOperationException("hw3: TODO"); //if you want to add anything to this constructor, feel free to
-
+      if(block.hasNext()){
+        blockIter = new RIDPageIterator(block.next());
+      }
     }
 
     /**
@@ -560,11 +561,32 @@ public class Table implements Iterable<Record>, Closeable {
     }
 
     public boolean hasNext() {
-      throw new UnsupportedOperationException("hw3: TODO");
+      if(nextRecordId!=null){
+        return true;
+      }
+
+      if(blockIter.hasNext()){
+        nextRecordId = blockIter.next();
+        return true;
+      }
+      while (block.hasNext()){
+        final Page next = block.next();
+        blockIter = new RIDPageIterator(next);
+        if(blockIter.hasNext()){
+          nextRecordId = blockIter.next();
+          return true;
+        }
+      }
+      return false;
     }
 
     public RecordId next() {
-      throw new UnsupportedOperationException("hw3: TODO");
+      if(this.nextRecordId != null || this.hasNext()){
+        this.prevRecordId = this.nextRecordId;
+        this.nextRecordId = null;
+        return prevRecordId;
+      }
+      throw new NoSuchElementException();
     }
 
     /**
@@ -609,7 +631,6 @@ public class Table implements Iterable<Record>, Closeable {
       }
 
       this.prevRecordId = null;
-      this.nextRecordId = this.markedPrevRecordId;
     }
   }
 
