@@ -1,12 +1,8 @@
 package edu.berkeley.cs186.database.table;
 
-import java.util.Arrays;
+import java.util.*;
 import java.io.Closeable;
 import java.nio.ByteBuffer;
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.TreeSet;
 
 import edu.berkeley.cs186.database.DatabaseException;
 import edu.berkeley.cs186.database.common.ArrayBacktrackingIterator;
@@ -435,26 +431,37 @@ public class Table implements Iterable<Record>, Closeable {
    * should function.
    */
   public class RIDPageIterator implements BacktrackingIterator<RecordId> {
+    private final byte[] bitMap;
+    private final ArrayBacktrackingIterator<RecordId> arrayBacktrackingIter;
     //member variables go here
 
     public RIDPageIterator(Page page) {
-      throw new UnsupportedOperationException("hw3: TODO");
+      this.bitMap = getBitMap(page);
+      List<RecordId> temp = new ArrayList<>();
+      for (int entryNum = 0;entryNum <numRecordsPerPage; entryNum++ ){
+        final Bits.Bit bit = Bits.getBit(bitMap, entryNum);
+        if(bit == Bits.Bit.ONE){
+          temp.add(new RecordId(page.getPageNum(), (short) entryNum));
+        }
+      }
+      final RecordId[] array = temp.toArray(new RecordId[temp.size()]);
+      this.arrayBacktrackingIter = new ArrayBacktrackingIterator<>(array);
     }
 
     public boolean hasNext() {
-      throw new UnsupportedOperationException("hw3: TODO");
+      return this.arrayBacktrackingIter.hasNext();
     }
 
     public RecordId next() {
-      throw new UnsupportedOperationException("hw3: TODO");
+      return this.arrayBacktrackingIter.next();
     }
 
     public void mark() {
-      throw new UnsupportedOperationException("hw3: TODO");
+      this.arrayBacktrackingIter.mark();
     }
 
     public void reset() {
-      throw new UnsupportedOperationException("hw3: TODO");
+      arrayBacktrackingIter.reset();
     }
   }
 
