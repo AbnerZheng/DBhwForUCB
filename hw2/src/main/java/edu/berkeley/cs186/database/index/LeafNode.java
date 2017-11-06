@@ -136,8 +136,7 @@ class LeafNode extends BPlusNode {
   // See BPlusNode.getLeftmostLeaf.
   @Override
   public LeafNode getLeftmostLeaf() {
-    // todo
-    throw new UnsupportedOperationException("TODO(hw2): implement.");
+    return this;
   }
 
   // See BPlusNode.put.
@@ -381,6 +380,11 @@ class LeafNode extends BPlusNode {
       recordIds.add(recordId);
     }
     return new LeafNode(metadata, pageNum, keys, recordIds, rightSibling);
+  }
+
+  @Override
+  public LeafNode getLeafGreaterEqual(DataBox key) {
+    return this;
   }
 
   // Builtins //////////////////////////////////////////////////////////////////

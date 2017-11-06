@@ -241,4 +241,6 @@ abstract class BPlusNode {
       throw new IllegalArgumentException(msg);
     }
   }
+
+  public abstract LeafNode getLeafGreaterEqual(DataBox key);
 }

@@ -73,7 +73,7 @@ class InnerNode extends BPlusNode {
   // See BPlusNode.getLeftmostLeaf.
   @Override
   public LeafNode getLeftmostLeaf() {
-    throw new UnsupportedOperationException("TODO(hw2): implement.");
+    return getChild(0).getLeftmostLeaf();
   }
 
   // See BPlusNode.put.
@@ -352,6 +352,12 @@ class InnerNode extends BPlusNode {
       children.add(buf.getInt());
     }
     return new InnerNode(metadata, pageNum, keys, children);
+  }
+
+  @Override
+  public LeafNode getLeafGreaterEqual(DataBox key) {
+    final int i = numLessThanEqual(key, keys);
+    return getChild(i).getLeafGreaterEqual(key);
   }
 
   // Builtins //////////////////////////////////////////////////////////////////

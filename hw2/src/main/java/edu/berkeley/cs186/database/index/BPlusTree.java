@@ -193,8 +193,8 @@ public class BPlusTree {
      * memory will receive 0 points.
      */
     public Iterator<RecordId> scanAll() {
-      throw new UnsupportedOperationException("TODO(hw2): implement.");
-      // TODO(hw2): Return a BPlusTreeIterator.
+      final LeafNode leftmostLeaf = root.getLeftmostLeaf();
+      return new BPlusTreeIterator(leftmostLeaf, Optional.empty());
     }
 
     /**
@@ -223,8 +223,8 @@ public class BPlusTree {
      */
     public Iterator<RecordId> scanGreaterEqual(DataBox key) {
       typecheck(key);
-      throw new UnsupportedOperationException("TODO(hw2): implement.");
-      // TODO(hw2): Return a BPlusTreeIterator.
+      final LeafNode leafGreaterEqual = root.getLeafGreaterEqual(key);
+      return new BPlusTreeIterator(leafGreaterEqual,  Optional.of(key));
     }
 
     /**
@@ -345,16 +345,51 @@ public class BPlusTree {
 
     // Iterator ////////////////////////////////////////////////////////////////
     private class BPlusTreeIterator implements Iterator<RecordId> {
-      // TODO(hw2): Add whatever fields and constructors you want here.
+      private final boolean scanAll;
+      private final DataBox key;
+      private Iterator<RecordId> currentLeafIterator;
+      private LeafNode currentLeafNode;
+      private RecordId nextValue;
+
+      BPlusTreeIterator(LeafNode currentLeafNode, Optional<DataBox> key){
+        this.currentLeafNode = currentLeafNode;
+        scanAll = !key.isPresent();
+        this.key = key.orElse(null);
+        this.currentLeafIterator = scanAll? currentLeafNode.scanAll(): currentLeafNode.scanGreaterEqual(this.key);
+      }
 
       @Override
       public boolean hasNext() {
-        throw new UnsupportedOperationException("TODO(hw2): implement.");
+        if(nextValue != null){
+          return true;
+        }
+        if(currentLeafIterator.hasNext()){
+          nextValue = currentLeafIterator.next();
+          return true;
+        }
+        while (true) {
+          // 这里因为delete操作不把这些删除,还是得都判断出来
+          currentLeafNode = this.currentLeafNode.getRightSibling().orElse(null);
+          if(currentLeafNode == null){
+            currentLeafIterator = null;
+            return false;
+          }
+          this.currentLeafIterator = scanAll? currentLeafNode.scanAll(): currentLeafNode.scanGreaterEqual(this.key);
+          if(currentLeafIterator.hasNext()){
+            nextValue = currentLeafIterator.next();
+            return true;
+          }
+        }
       }
 
       @Override
       public RecordId next() {
-        throw new UnsupportedOperationException("TODO(hw2): implement.");
+        if(hasNext()){
+          RecordId temp =  nextValue;
+          nextValue = null;
+          return temp;
+        }
+        throw new NoSuchElementException();
       }
     }
 }
