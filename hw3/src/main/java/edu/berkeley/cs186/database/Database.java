@@ -101,7 +101,8 @@ public class Database {
   }
 
   /**
-   * Create a new table in this database with an index on each of the given column names.
+   * Create a new table in this database with an index on each of
+   * the given column names.
    * NOTE: YOU CAN NOT DELETE/UPDATE FROM THIS TABLE IF YOU CHOOSE TO BUILD INDICES!!
    * @param s the table schema
    * @param tableName the name of the table
@@ -215,7 +216,8 @@ public class Database {
   }
 
 
-  public class Transaction {
+  public class
+  Transaction {
     long transNum;
     boolean active;
     HashMap<String, Table> tempTables;

@@ -28,7 +28,7 @@ public class TestJoinOperator {
   @Rule
   public TemporaryFolder tempFolder = new TemporaryFolder();
 
-  @Test(timeout=5000)
+  @Test()
   public void testOperatorSchema() throws QueryPlanException, DatabaseException, IOException {
     TestSourceOperator sourceOperator = new TestSourceOperator();
     File tempDir = tempFolder.newFolder("joinTest");
@@ -104,7 +104,7 @@ public class TestJoinOperator {
     assertFalse(outputIterator.hasNext());
   }
 
-  @Test(timeout=5000)
+  @Test()
   public void testSimpleJoinPNLJ() throws QueryPlanException, DatabaseException, IOException {
     TestSourceOperator sourceOperator = new TestSourceOperator();
     File tempDir = tempFolder.newFolder("joinTest");
