@@ -1,6 +1,5 @@
 package edu.berkeley.cs186.database.query;
 
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -12,8 +11,6 @@ import edu.berkeley.cs186.database.common.BacktrackingIterator;
 import edu.berkeley.cs186.database.databox.DataBox;
 import edu.berkeley.cs186.database.io.Page;
 import edu.berkeley.cs186.database.table.Record;
-import edu.berkeley.cs186.database.table.Schema;
-import edu.berkeley.cs186.database.table.Table;
 
 public class PNLJOperator extends JoinOperator {
 
@@ -42,48 +39,94 @@ public class PNLJOperator extends JoinOperator {
   private class PNLJIterator extends JoinIterator {
     private final BacktrackingIterator<Page> leftPageIterator;
     private final BacktrackingIterator<Page> rightPageIterator;
-    private final Record nextRecord;
-    private Page leftPage;
-    private Page rightPage;
+    private Record nextRecord;
+    private BacktrackingIterator<Record> leftBlockIterator;
+    private BacktrackingIterator<Record> rightBlockIterator;
+    private final int MAX_PAGES = 1;
+    private Record leftRecord;
+
     // add any member variables here
 
     public PNLJIterator() throws QueryPlanException, DatabaseException {
       super();
       this.leftPageIterator = PNLJOperator.this.getPageIterator(getLeftTableName());
+      this.leftPageIterator.next();
+      this.leftBlockIterator = PNLJOperator.this.getBlockIterator(getLeftTableName(), leftPageIterator, MAX_PAGES);
+
+
       this.rightPageIterator = PNLJOperator.this.getPageIterator(getRightTableName());
+      this.rightPageIterator.next();
       this.rightPageIterator.mark();
-      this.nextRecord = null;
+      this.rightBlockIterator = PNLJOperator.this.getBlockIterator(getRightTableName(),rightPageIterator, MAX_PAGES);
+
+      this.rightBlockIterator.next();
+      this.rightBlockIterator.mark();
+      this.rightBlockIterator.reset();
+
+      this.leftBlockIterator.next();
+      this.leftBlockIterator.mark();
+      this.leftBlockIterator.reset();
     }
 
     public boolean hasNext() {
-      if(nextRecord!=null){
+      if(this.nextRecord!=null){
         return true;
       }
-      while (true) {
-        if (leftPage == null) {
-          if (this.leftPageIterator.hasNext()) {
-            leftPage = leftPageIterator.next();
-            Page[] leftPageBlocks = new Page[1];
-            leftPageBlocks[0] = leftPage;
-            try {
 
-              PNLJOperator.this.getBlockIterator(getLeftTableName(),leftPageBlocks);
-            } catch (DatabaseException e) {
-              e.printStackTrace();
+      while (true){
+        if(this.leftRecord == null){
+          if(this.leftBlockIterator.hasNext()){
+            this.leftRecord = leftBlockIterator.next();
+            this.rightBlockIterator.reset();
+          }else {
+            if(rightPageIterator.hasNext()){
+              leftBlockIterator.reset();
+              leftRecord = leftBlockIterator.next();
+              try {
+                rightBlockIterator = PNLJOperator.this.getBlockIterator(getRightTableName(), rightPageIterator, MAX_PAGES);
+                rightBlockIterator.next();
+                rightBlockIterator.mark();
+                rightBlockIterator.reset();
+              } catch (DatabaseException e) {
+                return false;
+              }
+            }else if(leftPageIterator.hasNext()) {// 重新下一轮右块遍历
+              try {
+                this.leftBlockIterator = PNLJOperator.this.getBlockIterator(getLeftTableName(), leftPageIterator, MAX_PAGES);
+                this.rightPageIterator.reset();
+                this.rightPageIterator.next(); // skip head page
+                this.rightBlockIterator = PNLJOperator.this.getBlockIterator(getRightTableName(), rightPageIterator, MAX_PAGES);
+
+                this.leftBlockIterator.next();
+                this.leftBlockIterator.mark();
+                this.leftBlockIterator.reset();
+                this.rightBlockIterator.next();
+                this.rightBlockIterator.mark();
+                this.rightBlockIterator.reset(); // 撤销上面的next
+              } catch (DatabaseException e) {
+                return false;
+              }
+            }else {
+              return false;
             }
-            rightPageIterator.reset();
-          } else {
-            return false;
           }
-        }
-        if (rightPage == null) {
-          if (rightPageIterator.hasNext()){
-            rightPage = rightPageIterator.next();
-          }else{
-            return false;
+        }else{
+          while (rightBlockIterator.hasNext()){
+            final Record rightRecord = rightBlockIterator.next();
+            DataBox leftJoinValue = this.leftRecord.getValues().get(PNLJOperator.this.getLeftColumnIndex());
+            DataBox rightJoinValue = rightRecord.getValues().get(PNLJOperator.this.getRightColumnIndex());
+            if (leftJoinValue.equals(rightJoinValue)) {
+              List<DataBox> leftValue = new ArrayList<>(this.leftRecord.getValues());
+              List<DataBox> rightValue = new ArrayList<>(rightRecord.getValues());
+              leftValue.addAll(rightValue);
+              this.nextRecord = new Record(leftValue);
+              return true;
+            }
           }
+
+          // 运行到这说明右块遍历好了
+          this.leftRecord = null;
         }
-//        while()
       }
     }
 
@@ -94,7 +137,12 @@ public class PNLJOperator extends JoinOperator {
      * @throws NoSuchElementException if there are no more Records to yield
      */
     public Record next() {
-      throw new UnsupportedOperationException("hw3: TODO");
+      if(hasNext()){
+        final Record nextRecord = this.nextRecord;
+        this.nextRecord = null;
+        return nextRecord;
+      }
+      throw new NoSuchElementException();
     }
 
     public void remove() {

@@ -53,7 +53,6 @@ public class BNLJOperator extends JoinOperator {
     private BacktrackingIterator<Page> rightPageIterator;
     private Record nextRecord;
     private Record leftRecord;
-    private Record rightRecord;
     // add any member variables here
 
     public BNLJIterator() throws QueryPlanException, DatabaseException {
@@ -61,15 +60,20 @@ public class BNLJOperator extends JoinOperator {
       this.leftPageIterator = BNLJOperator.this.getPageIterator(getLeftTableName());
       this.leftPageIterator.next();
       this.leftPageIterator.mark();
+      this.leftBlockIterator = BNLJOperator.this.getBlockIterator(getLeftTableName(), leftPageIterator, MAX_PAGES);
+
       this.rightPageIterator = BNLJOperator.this.getPageIterator(getRightTableName());
       this.rightPageIterator.next();
       this.rightPageIterator.mark();
-      this.leftBlockIterator = BNLJOperator.this.getBlockIterator(getLeftTableName(), leftPageIterator, MAX_PAGES);
-      this.rightBlockIterator = BNLJOperator.this.getBlockIterator(getRightTableName(),rightPageIterator,MAX_PAGES);
+      this.rightBlockIterator = BNLJOperator.this.getBlockIterator(getRightTableName(),rightPageIterator,1);
 
       this.rightBlockIterator.next();
       this.rightBlockIterator.mark();
       this.rightBlockIterator.reset();
+
+      this.leftBlockIterator.next();
+      this.leftBlockIterator.mark();
+      this.leftBlockIterator.reset();
     }
 
     public boolean hasNext() {
@@ -87,7 +91,10 @@ public class BNLJOperator extends JoinOperator {
               leftBlockIterator.reset();
               leftRecord = leftBlockIterator.next();
               try {
-                rightBlockIterator = BNLJOperator.this.getBlockIterator(getRightTableName(), rightPageIterator, MAX_PAGES);
+                rightBlockIterator = BNLJOperator.this.getBlockIterator(getRightTableName(), rightPageIterator, 1);
+                rightBlockIterator.next();
+                rightBlockIterator.mark();
+                rightBlockIterator.reset();
               } catch (DatabaseException e) {
                 return false;
               }
@@ -95,10 +102,13 @@ public class BNLJOperator extends JoinOperator {
               try {
                 this.leftBlockIterator = BNLJOperator.this.getBlockIterator(getLeftTableName(), leftPageIterator, MAX_PAGES);
                 this.rightPageIterator.reset();
-                this.rightBlockIterator = BNLJOperator.this.getBlockIterator(getRightTableName(), rightPageIterator, MAX_PAGES);
-                this.rightBlockIterator.next();
+                this.rightPageIterator.next(); // skip head page
+                this.rightBlockIterator = BNLJOperator.this.getBlockIterator(getRightTableName(), rightPageIterator, 1);
 
+                this.leftBlockIterator.next();
                 this.leftBlockIterator.mark();
+                this.leftBlockIterator.reset();
+                this.rightBlockIterator.next();
                 this.rightBlockIterator.mark();
                 this.rightBlockIterator.reset(); // 撤销上面的next
               } catch (DatabaseException e) {

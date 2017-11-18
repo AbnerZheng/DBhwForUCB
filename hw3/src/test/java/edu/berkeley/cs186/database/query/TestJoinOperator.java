@@ -104,7 +104,7 @@ public class TestJoinOperator {
     assertFalse(outputIterator.hasNext());
   }
 
-  @Test()
+  @Test(timeout = 5000)
   public void testSimpleJoinPNLJ() throws QueryPlanException, DatabaseException, IOException {
     TestSourceOperator sourceOperator = new TestSourceOperator();
     File tempDir = tempFolder.newFolder("joinTest");
