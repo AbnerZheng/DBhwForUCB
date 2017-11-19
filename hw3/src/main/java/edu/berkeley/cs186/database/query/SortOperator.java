@@ -8,6 +8,7 @@ import edu.berkeley.cs186.database.table.Schema;
 import edu.berkeley.cs186.database.common.Pair;
 import edu.berkeley.cs186.database.io.Page;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 
@@ -93,7 +94,34 @@ public class SortOperator  {
    * sorting on currently unmerged from run i.
    */
   public Run mergeSortedRuns(List<Run> runs) throws DatabaseException {
-    throw new UnsupportedOperationException("hw3: TODO");
+    final PriorityQueue<Pair<Record, Integer>> pairPriorityQueue = new PriorityQueue<>(new Comparator<Pair<Record, Integer>>() {
+      @Override
+      public int compare(Pair<Record, Integer> o1, Pair<Record, Integer> o2) {
+        return comparator.compare(o1.getFirst(), o2.getFirst());
+      }
+    });
+    List<Iterator<Record>> runIterators = new ArrayList<>();
+    int j = 0;
+    for (int i=0; i< runs.size(); i++) {
+      final Run run = runs.get(i);
+      final Iterator<Record> iterator = run.iterator();
+      if(iterator.hasNext()) {
+        pairPriorityQueue.add(new Pair<>(iterator.next(), j));
+        j++;
+        runIterators.add(iterator);
+      }
+    }
+
+    final Run retRun = new Run();
+    while (!pairPriorityQueue.isEmpty()){
+      final Pair<Record, Integer> poll = pairPriorityQueue.poll();
+      retRun.addRecord(poll.getFirst().getValues());
+      final Iterator<Record> recordIterator = runIterators.get(poll.getSecond());
+      if(recordIterator.hasNext()){
+        pairPriorityQueue.add(new Pair<>(recordIterator.next(), poll.getSecond()));
+      }
+    }
+    return retRun;
 
   }
 
@@ -103,8 +131,18 @@ public class SortOperator  {
    * of the input runs at a time.
    */
   public List<Run> mergePass(List<Run> runs) throws DatabaseException {
-    throw new UnsupportedOperationException("hw3: TODO");
-
+    final int numMergePass = SortOperator.this.transaction.getNumMemoryPages() - 1;
+    final int length = runs.size() / numMergePass;
+    List<Run> retRuns = new ArrayList<>();
+    for (int i = 0; i < numMergePass; i++) {
+      List<Run> temp = new ArrayList<>();
+      for (int j = 0; j < length; j++) {
+        temp.add(runs.get(i* length + j));
+      }
+      final Run run = mergeSortedRuns(temp);
+      retRuns.add(run);
+    }
+    return retRuns;
   }
 
 
