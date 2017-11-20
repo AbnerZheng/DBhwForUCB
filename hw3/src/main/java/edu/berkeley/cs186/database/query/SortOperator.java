@@ -2,6 +2,7 @@ package edu.berkeley.cs186.database.query;
 
 import edu.berkeley.cs186.database.Database;
 import edu.berkeley.cs186.database.DatabaseException;
+import edu.berkeley.cs186.database.common.BacktrackingIterator;
 import edu.berkeley.cs186.database.databox.DataBox;
 import edu.berkeley.cs186.database.table.Record;
 import edu.berkeley.cs186.database.table.Schema;
@@ -132,11 +133,11 @@ public class SortOperator  {
    */
   public List<Run> mergePass(List<Run> runs) throws DatabaseException {
     final int numMergePass = SortOperator.this.transaction.getNumMemoryPages() - 1;
-    final int length = runs.size() / numMergePass;
+    final int length = (int) Math.ceil(1.0 * runs.size() / numMergePass);
     List<Run> retRuns = new ArrayList<>();
     for (int i = 0; i < numMergePass; i++) {
       List<Run> temp = new ArrayList<>();
-      for (int j = 0; j < length; j++) {
+      for (int j = 0; j < length && (i*length +j < runs.size()); j++) {
         temp.add(runs.get(i* length + j));
       }
       final Run run = mergeSortedRuns(temp);
@@ -152,8 +153,22 @@ public class SortOperator  {
    * Returns the name of the table that backs the final run.
    */
   public String sort() throws DatabaseException {
-    throw new UnsupportedOperationException("hw3: TODO");
-
+    BacktrackingIterator<Page> pageIterator = SortOperator.this.transaction.getPageIterator(SortOperator.this.tableName);
+    pageIterator.next(); // skip header page
+    List<Run> sortedRun = new ArrayList<>();
+    while (pageIterator.hasNext()){
+      final BacktrackingIterator<Record> blockIterator = transaction.getBlockIterator(tableName, pageIterator, 1);
+      final Run run = new Run();
+      while (blockIterator.hasNext()){
+        final List<DataBox> values = blockIterator.next().getValues();
+        run.addRecord(values);
+      }
+      final Run sortRun = sortRun(run);
+      sortedRun.add(sortRun);
+    }
+    sortedRun = mergePass(sortedRun);
+    final Run run = mergeSortedRuns(sortedRun);
+    return run.tableName();
   }
 
 
