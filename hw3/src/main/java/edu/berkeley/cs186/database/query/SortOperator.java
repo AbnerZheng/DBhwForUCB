@@ -132,10 +132,10 @@ public class SortOperator  {
    * of the input runs at a time.
    */
   public List<Run> mergePass(List<Run> runs) throws DatabaseException {
-    final int numMergePass = SortOperator.this.transaction.getNumMemoryPages() - 1;
-    final int length = (int) Math.ceil(1.0 * runs.size() / numMergePass);
+    final int length= SortOperator.this.transaction.getNumMemoryPages() - 1;
+    final int numSortedRun = (int) Math.ceil(1.0 * runs.size() / length);
     List<Run> retRuns = new ArrayList<>();
-    for (int i = 0; i < numMergePass; i++) {
+    for (int i = 0; i < numSortedRun; i++) {
       List<Run> temp = new ArrayList<>();
       for (int j = 0; j < length && (i*length +j < runs.size()); j++) {
         temp.add(runs.get(i* length + j));

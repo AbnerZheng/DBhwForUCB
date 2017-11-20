@@ -267,6 +267,7 @@ public class TestJoinOperator {
 
 
     while (outputIterator.hasNext()) {
+      System.out.println(numRecords);
       assertEquals(expectedRecord, outputIterator.next());
       numRecords++;
     }
@@ -275,7 +276,7 @@ public class TestJoinOperator {
   }
 
 
-  @Test(timeout=10000)
+  @Test()
   public void testSortMergeJoinUnsortedInputs() throws QueryPlanException, DatabaseException, IOException {
     TestSourceOperator sourceOperator = new TestSourceOperator();
     File tempDir = tempFolder.newFolder("joinTest");
@@ -349,6 +350,7 @@ public class TestJoinOperator {
 
 
     while (outputIterator.hasNext()) {
+      System.out.println(numRecords);
       if (numRecords < (288*288/4)) {
         expectedRecord = expectedRecord1;
       } else if (numRecords < (288*288/2)) {
@@ -359,7 +361,7 @@ public class TestJoinOperator {
         expectedRecord = expectedRecord4;
       }
       Record r = outputIterator.next();
-      assertEquals(r, expectedRecord);
+      assertEquals(expectedRecord, r);
       numRecords++;
     }
 
