@@ -120,6 +120,7 @@ public class TestOptimizationJoins {
     Iterator<Record> queryOutput = query.executeOptimal();
 
     QueryOperator finalOperator = query.getFinalOperator();
+    System.out.println( finalOperator.toString());
     assert(finalOperator.toString().contains("BNLJ"));
 
   }
@@ -158,6 +159,7 @@ public class TestOptimizationJoins {
 
     QueryOperator finalOperator = query.getFinalOperator();
 
+    System.out.println( finalOperator.toString());
     assert(finalOperator.toString().contains("\tvalue: 9"));
   }
 
@@ -194,6 +196,7 @@ public class TestOptimizationJoins {
     Iterator<Record> queryOutput = query.executeOptimal();
 
     QueryOperator finalOperator = query.getFinalOperator();
+    System.out.println( finalOperator.toString());
 
     assert(finalOperator.toString().contains("INDEXSCAN"));
 
@@ -260,6 +263,7 @@ public class TestOptimizationJoins {
     Iterator<Record> queryOutput = query.executeOptimal();
 
     QueryOperator finalOperator = query.getFinalOperator();
+    System.out.println( finalOperator.toString());
     //inner most joins are the largest tables
     assert(finalOperator.toString().contains("\t\ttable: To2"));
     assert(finalOperator.toString().contains("\t\ttable: To3"));
@@ -341,6 +345,7 @@ public class TestOptimizationJoins {
     Iterator<Record> queryOutput = query.executeOptimal();
 
     QueryOperator finalOperator = query.getFinalOperator();
+    System.out.println( finalOperator.toString());
 
     //smallest to largest order
     assert(finalOperator.toString().contains("\t\t\ttable: To1"));
