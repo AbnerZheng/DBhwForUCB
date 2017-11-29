@@ -116,6 +116,7 @@ public class TestBasicQuery {
     int count = 0;
     while(queryOutput.hasNext()){
       Record r = queryOutput.next();
+      System.out.println(r);
       assertEquals(r.getValues().get(0), new IntDataBox(count));
       count++;
     }
