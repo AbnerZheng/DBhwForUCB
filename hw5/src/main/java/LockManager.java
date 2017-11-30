@@ -2,6 +2,7 @@ import sun.tools.jconsole.Tab;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.concurrent.locks.Lock;
 
@@ -51,13 +52,26 @@ public class LockManager {
         }else {
             final TableLock tableLock = this.tableToTableLock.get(tableName);
             if(!compatible(tableName, transaction, lockType)){
-                final Request e = new Request(transaction, lockType);
-                transaction.sleep();
-                if(tableLock.lockOwners.contains(tableName)){// 如果是升级锁
-                    tableLock.requestersQueue.addFirst(e);
-                }else {
-                    tableLock.requestersQueue.addLast(e);
+                switch (this.deadlockAvoidanceType){
+                    case None:
+                        final Request e = new Request(transaction, lockType);
+                        transaction.sleep();
+                        if(tableLock.lockOwners.contains(tableName)){// 如果是升级锁
+                            tableLock.requestersQueue.addFirst(e);
+                        }else {
+                            tableLock.requestersQueue.addLast(e);
+                        }
+                        break;
+                    case WoundWait:
+                        woundWait(tableName, transaction, lockType);
+                        return;
+                    case WaitDie:
+                        waitDie(tableName, transaction, lockType);
+                        return;
+
                 }
+
+
             }else{
                 tableLock.lockType = lockType;
                 tableLock.lockOwners.add(transaction);
@@ -76,14 +90,14 @@ public class LockManager {
     private boolean compatible(String tableName, Transaction transaction, LockType lockType) throws IllegalArgumentException{
         TableLock tableLock = tableToTableLock.get(tableName);
         if(lockType.equals(LockType.Shared)){
-           if(tableLock.lockType.equals(LockType.Shared)){
-               return true;
-           }else{
-               if(tableLock.lockOwners.contains(transaction)){
-                   throw new IllegalArgumentException();
-               }
-               return false;
-           }
+            if(tableLock.lockType.equals(LockType.Shared)){
+                return true;
+            }else{
+                if(tableLock.lockOwners.contains(transaction)){
+                    throw new IllegalArgumentException();
+                }
+                return false;
+            }
         }else{
             if(tableLock.lockType.equals(LockType.Shared)){
                 if(tableLock.lockOwners.contains(transaction) && tableLock.lockOwners.size() == 1){
@@ -91,7 +105,7 @@ public class LockManager {
                 }
                 return false;
             }else if(tableLock.lockOwners.contains(transaction)){
-        		throw new IllegalArgumentException();
+                throw new IllegalArgumentException();
             }
             return false;
         }
@@ -116,18 +130,18 @@ public class LockManager {
             throw new IllegalArgumentException();
         }
         if(tableLock.lockOwners.size()==1 && tableLock.lockType.equals(LockType.Shared) && !tableLock.requestersQueue.isEmpty()){
-        	for(int i = 0; i < tableLock.requestersQueue.size(); i++){
+            for(int i = 0; i < tableLock.requestersQueue.size(); i++){
                 Request request = tableLock.requestersQueue.get(i);
                 if(tableLock.lockOwners.contains(request.transaction) && request.lockType.equals(LockType.Exclusive)){
-                	tableLock.lockType = LockType.Exclusive;
-                	tableLock.requestersQueue.remove(i);
+                    tableLock.lockType = LockType.Exclusive;
+                    tableLock.requestersQueue.remove(i);
                     request.transaction.wake();
-        	        break;
+                    break;
                 }
             }
         }else if(tableLock.lockType.equals(LockType.Shared) && !tableLock.lockOwners.isEmpty()){
-        	int i = 0;
-        	while(i < tableLock.requestersQueue.size()){
+            int i = 0;
+            while(i < tableLock.requestersQueue.size()){
                 final Request request = tableLock.requestersQueue.get(i);
                 if(request.lockType == LockType.Shared){
                     tableLock.requestersQueue.remove(i);
@@ -148,12 +162,12 @@ public class LockManager {
                 case Exclusive:
                     break;
                 case Shared:
-                	while(!tableLock.requestersQueue.isEmpty() &&  tableLock.requestersQueue.getFirst().lockType == LockType.Shared){
+                    while(!tableLock.requestersQueue.isEmpty() &&  tableLock.requestersQueue.getFirst().lockType == LockType.Shared){
                         final Request request1 = tableLock.requestersQueue.pollFirst();
                         tableLock.lockOwners.add(request1.transaction);
                         request1.transaction.wake();
                     }
-                	break;
+                    break;
             }
         }
     }
@@ -183,7 +197,23 @@ public class LockManager {
      * @param lockType of request
      */
     private void waitDie(String tableName, Transaction transaction, LockType lockType) {
-        //TODO: HW5 Implement
+        assert this.deadlockAvoidanceType == DeadlockAvoidanceType.WaitDie;
+
+        if(!compatible(tableName, transaction, lockType)){
+            final TableLock tableLock = this.tableToTableLock.get(tableName);
+            if(tableLock != null){
+                final Iterator<Transaction> iterator = tableLock.lockOwners.iterator();
+                while (iterator.hasNext()){
+                    final Transaction next = iterator.next();
+                    if(transaction.getTimestamp() >= next.getTimestamp()){
+                        transaction.setStatus(Transaction.Status.Aborting);
+                        return;
+                    }
+                }
+                transaction.setStatus(Transaction.Status.Waiting);
+                tableLock.requestersQueue.addLast(new Request(transaction, lockType));
+            }
+        }
     }
 
     /**
@@ -196,7 +226,29 @@ public class LockManager {
      * @param lockType of request
      */
     private void woundWait(String tableName, Transaction transaction, LockType lockType) {
-        //TODO: HW5 Implement
+        assert this.deadlockAvoidanceType == DeadlockAvoidanceType.WoundWait;
+
+        if(!compatible(tableName, transaction, lockType)){
+            final TableLock tableLock = this.tableToTableLock.get(tableName);
+            if(tableLock != null){
+                final Iterator<Transaction> iterator = tableLock.lockOwners.iterator();
+                while (iterator.hasNext()){
+                    final Transaction next = iterator.next();
+                    if(next.getTimestamp() < transaction.getTimestamp()){
+                        transaction.setStatus(Transaction.Status.Waiting);
+                        tableLock.requestersQueue.addLast(new Request(transaction,lockType));
+                        return;
+                    }
+                }
+                for (Transaction t :
+                    tableLock.lockOwners) {
+                    t.setStatus(Transaction.Status.Aborting);
+                }
+                tableLock.lockOwners.clear();
+                tableLock.lockOwners.add(transaction);
+                tableLock.lockType = lockType;
+            }
+        }
     }
 
     /**
